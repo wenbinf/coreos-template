@@ -1,0 +1,10 @@
+[Unit]
+Description=Memcached
+Requires=docker.service  
+After=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill memcached
+ExecStartPre=-/usr/bin/docker rm memcached
+ExecStart=/usr/bin/docker run -d --name memcached -p 22 -p 11211:11211 wenbinf/memcached
