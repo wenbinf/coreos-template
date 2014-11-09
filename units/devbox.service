@@ -4,7 +4,5 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill memcached
-ExecStartPre=-/usr/bin/docker rm memcached
 ExecStart=/usr/bin/docker run -d --name devbox -v /home/core/src:/root/src -p 22 wenbinf/devbox
+ExecStop=/usr/bin/docker stop devbox
