@@ -7,4 +7,4 @@ After=docker.service
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill memcached
 ExecStartPre=-/usr/bin/docker rm memcached
-ExecStart=/usr/bin/docker -d --name devbox -v ~/src:/root/src -p 22 wenbinf/devbox
+ExecStart=/usr/bin/docker run -d --name devbox -v ~/src:/root/src -p 22 wenbinf/devbox
