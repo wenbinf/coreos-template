@@ -1,8 +1,32 @@
 [Unit]
+
 Description=Memcached
-Requires=docker.service  
+Requires=docker.service
 After=docker.service
 
 [Service]
-ExecStart=/usr/bin/docker run -d --name memcached -p 22 -p 11211:11211 wenbinf/memcached
+
+# Let processes take awhile to start up (for first run Docker containers)
+TimeoutStartSec=0
+
+# Change killmode from "control-group" to "none" to let Docker remove
+# work correctly.
+KillMode=none
+
+# Get CoreOS environmental variables
+EnvironmentFile=/etc/environment
+
+Restart=always
+
+## Directives with "=-" are allowed to fail without consequence
+ExecStartPre=-/usr/bin/docker kill memcached
+ExecStartPre=-/usr/bin/docker rm memcached
+
+ExecStartPre=/usr/bin/docker pull wenbinf/memcached
+
+ExecStart=/usr/bin/docker run --name memcached -p 22 -p 11211:11211 wenbinf/memcached
 ExecStop=/usr/bin/docker stop memcached
+
+[X-Fleet]
+# Don't schedule on the same machine as other Apache instances
+X-Conflicts=memcached.*.service

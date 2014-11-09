@@ -1,8 +1,31 @@
 [Unit]
+
 Description=Dev Box
-Requires=docker.service  
+Requires=docker.service
+Requires=memcached.service
 After=docker.service
+After=memcached.service
 
 [Service]
-ExecStart=/usr/bin/docker run -d --name devbox -v /home/core/src:/root/src -p 22 wenbinf/devbox
+
+# Let processes take awhile to start up (for first run Docker containers)
+TimeoutStartSec=0
+
+# Change killmode from "control-group" to "none" to let Docker remove
+# work correctly.
+KillMode=none
+
+# Get CoreOS environmental variables
+EnvironmentFile=/etc/environment
+
+Restart=always
+ 
+## Directives with "=-" are allowed to fail without consequence
+ExecStartPre=-/usr/bin/docker kill devbox
+ExecStartPre=-/usr/bin/docker rm devbox
+
+ExecStartPre=/usr/bin/docker pull wenbinf/devbox
+
+ExecStart=/usr/bin/docker run --name devbox -v /home/core/src:/root/src -p 22 wenbinf/devbox /bin/bash
+
 ExecStop=/usr/bin/docker stop devbox
