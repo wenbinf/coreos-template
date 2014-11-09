@@ -28,5 +28,5 @@ ExecStart=/usr/bin/docker run --name memcached -p 22 -p 11211:11211 wenbinf/memc
 ExecStop=/usr/bin/docker stop memcached
 
 [X-Fleet]
-# Don't schedule on the same machine as other Apache instances
+# Don't schedule on the same machine as other memcached instances
 X-Conflicts=memcached.*.service

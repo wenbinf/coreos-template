@@ -45,3 +45,6 @@ $expose_docker_tcp=2375
 $vb_gui = false
 $vb_memory = 4096
 $vb_cpus = 4
+
+# Directory path for unit files
+# $unit_dir = '/home/coreos/src/coreos-template/units/*.service'

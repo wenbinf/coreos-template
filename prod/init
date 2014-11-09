@@ -1,3 +1,30 @@
 #!/usr/bin/python
 
 # TODO(wenbin): concatenate unit files to the user-data file.
+
+import glob
+from os import path
+import yaml
+
+unit_files = glob.glob('../units/*.service')
+units = []
+for unit_file in unit_files:
+    content = ''
+    with open(unit_file, 'r') as fp:
+        content = fp.read()
+    units.append({
+        'name': path.basename(unit_file),
+        'content': content
+    })
+
+with open('user-data.sample', 'r') as sample_fp:
+    sample = yaml.load(sample_fp)
+    for unit in units:
+        sample['coreos']['units'].append({
+            'name': unit['name'],
+            'command': 'start',
+            'enabled': True,
+            'content': content
+        })
+    with open('user-data1', 'w') as result_fp:
+        result_fp.write(yaml.dump(sample, default_flow_style=False))
