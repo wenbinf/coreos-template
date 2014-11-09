@@ -1,5 +1,8 @@
 # Vagrant + CoreOS for dev environment
 
-Before starting vagrant, please run init script to setup first.
+Before starting vagrant, please do these:
 
-    ./init
+       cp config.rb.sample config.rb
+       cp user-data.sample user-data
+
+Remember to update the $unit_dir accordingly in config.rb.
