@@ -26,6 +26,6 @@ ExecStartPre=-/usr/bin/docker rm devbox
 
 ExecStartPre=/usr/bin/docker pull wenbinf/devbox
 
-ExecStart=/usr/bin/docker run --name devbox -v /home/core/src:/root/src -p 22 wenbinf/devbox /bin/bash
+ExecStart=/usr/bin/docker run --name devbox -v /home/core/src:/root/src -p 22 wenbinf/devbox 
 
 ExecStop=/usr/bin/docker stop devbox
